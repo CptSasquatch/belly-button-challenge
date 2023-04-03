@@ -1,8 +1,8 @@
-// use d3 to select the gauge chart
-let gaugeChart = d3.select("#gauge");
 // use d3 to build the gauge chart
 function buildGauge(subjectID) {
-    bellydata.then(function(data) {
+    // use d3 to select the gauge chart
+    let gaugeChart = d3.select("#gauge");
+    d3.json(url).then(function(data) {
         // clear the gauge chart
         gaugeChart.html("");
         // create variables and console log them to make sure they are working
@@ -11,10 +11,11 @@ function buildGauge(subjectID) {
         let wfreq = subjectInfo.wfreq;
         console.log(wfreq);
         // set variables to calculate the level of the gauge
-        var degrees = 180 - wfreq * 20.05, radius = .35;
+        var degrees = 180 - (wfreq * 19.9);
+        const RADIUS = .275;
         var radians = degrees * Math.PI / 180;
-        var x = radius * Math.cos(radians);
-        var y = radius * Math.sin(radians);
+        var x = RADIUS * Math.cos(radians);
+        var y = RADIUS * Math.sin(radians);
 
 
 
@@ -43,31 +44,33 @@ function buildGauge(subjectID) {
             title: { text: "<b>Belly Button Washing Frequency</b><br>Scrubs per Week", font: { size: 26 } },
             titleposition: "top center",
             shapes:[
-                // {
-                // type: "line",
-                // x0: 0.495,
-                // y0: 0.495,
-                // x1: x + 0.495,
-                // y1: y + 0.495,
-                // opacity: 0.3,
-                // line: {
-                //     color: "black",
-                //     width: 9,
-                //     }
-                // },
-                // {
-                // type: "circle",
-                // x0: 0.473,
-                // y0: 0.465,
-                // x1: 0.525,
-                // y1: 0.525,
-                // opacity: 0.3,
-                // dropshadow: 1,
-                // fillcolor: "black",
-                // line: {
-                //     color: "black",
-                // }
-                // },
+                // optional drop shadow 
+                {
+                type: "line",
+                x0: 0.495,
+                y0: 0.495,
+                x1: x + 0.495,
+                y1: y + 0.495,
+                opacity: 0.3,
+                line: {
+                    color: "black",
+                    width: 9,
+                    }
+                },
+                {
+                type: "circle",
+                x0: 0.473,
+                y0: 0.465,
+                x1: 0.525,
+                y1: 0.525,
+                opacity: 0.3,
+                dropshadow: 1,
+                fillcolor: "black",
+                line: {
+                    color: "black",
+                }
+                },
+                // line segment and circle for gauge indicator 
                 {
                 type: "line",
                 x0: 0.5,
@@ -96,9 +99,3 @@ function buildGauge(subjectID) {
         Plotly.newPlot("gauge", trace3, layout3);
     });
 }
-// initialize the plot
-function init() {
-    buildGauge(subjectID);
-}
-init();
-

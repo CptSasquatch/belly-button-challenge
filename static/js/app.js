@@ -1,49 +1,37 @@
 // belly button challenge app
 // read in samples.json from url and assign it to a variable that contains the data
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
-let bellydata = d3.json(url).then(function(data) {
-    return data;
+var bellydata;
+d3.json(url).then(function(data) {
+    bellydata = data;
+    init();
 });
-// create variable for the dropdown menu
-let dropdownMenu = d3.select("#selDataset");
-// append the names of the test subjects to the dropdown menu
-bellydata.then(function(data) {
-    data.names.forEach(function(name) {
-        dropdownMenu.append("option").text(name).property("value");
-    });
-});
-// assign the value of the dropdown menu option to a variable
-let subjectID = dropdownMenu.property("value");
-// set the default test subject to 940
-subjectID = 940;
-// create variable for the demographic info panel
-let demographicInfo = d3.select("#sample-metadata");
+
+
 // use d3 to append the demographic info for the selected test subject to the demographic info panel
 function buildMetadata(subjectID) {
-    bellydata.then(function(data) {        
+    // create variable for the demographic info panel
+    let demographicInfo = d3.select("#sample-metadata");      
         demographicInfo.html("");
-        let subjectInfo = data.metadata.filter(subject => subject.id == subjectID)[0];
+        let subjectInfo = bellydata.metadata.filter(subject => subject.id == subjectID)[0];
         console.log(subjectInfo);
         Object.entries(subjectInfo).forEach(function([key, value]) {
             demographicInfo.append("p").text(`${key}: ${value}`);
         });
-    });
 }
-// use d3 to select the bar chart
-let barChart = d3.select("#bar");
-
-// use d3 to select the bubble chart
-let bubbleChart = d3.select("#bubble");
 
 // use d3 to append the top 10 OTUs found in that individual to the bar chart
 function buildCharts(subjectID) {
-    bellydata.then(function(data) {
+    // use d3 to select the bar chart
+    let barChart = d3.select("#bar");
+    // use d3 to select the bubble chart
+    let bubbleChart = d3.select("#bubble");
         // use d3 to clear the bar chart
         barChart.html("");
         // use d3 to clear the bubble chart
         bubbleChart.html("");
         // create variables and console log them to make sure they are working
-        let subjectInfo = data.samples.filter(subject => subject.id == subjectID)[0];
+        let subjectInfo = bellydata.samples.filter(subject => subject.id == subjectID)[0];
         console.log(subjectInfo);
         let otu_ids = subjectInfo.otu_ids;
         console.log(otu_ids);
@@ -65,7 +53,7 @@ function buildCharts(subjectID) {
             width: 550,
             height: 450,
             margin: { t: 50, b: 50 },
-            colorway: ["#d5e49d"],
+            colorway: ["#8cbf88"],
             marker: {
                 size: sample_values,
                 color: otu_ids,
@@ -95,7 +83,6 @@ function buildCharts(subjectID) {
             height: 600
         };
         Plotly.newPlot("bubble", traceData2, layout2, {scrollZoom: true}, {responsive: true});
-    });
 }
 // create an event handler for the dropdown menu
 function optionChanged(subjectID) {
@@ -105,10 +92,19 @@ function optionChanged(subjectID) {
 }
 // initialize the dashboard
 function init() {
+    // create variable for the dropdown menu
+    let dropdownMenu = d3.select("#selDataset");
+    // append the names of the test subjects to the dropdown menu
+    bellydata.names.forEach(function(name) {
+         dropdownMenu.append("option").text(name).property("value");
+        });
+    // assign the value of the dropdown menu option to a variable
+    let subjectID = bellydata.names[0];
     buildMetadata(subjectID);
     buildCharts(subjectID);
+    buildGauge(subjectID);
 }
-init();
+
 
 
 
