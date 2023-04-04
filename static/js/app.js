@@ -8,7 +8,7 @@ d3.json(url).then(function(data) {
 });
 
 
-// use d3 to append the demographic info for the selected test subject to the demographic info panel
+// append the demographic info for the selected test subject to the demographic info panel
 function buildMetadata(subjectID) {
     // create variable for the demographic info panel
     let demographicInfo = d3.select("#sample-metadata");      
@@ -20,15 +20,15 @@ function buildMetadata(subjectID) {
         });
 }
 
-// use d3 to append the top 10 OTUs found in that individual to the bar chart
+// append the top 10 OTUs found in that individual to the bar chart
 function buildCharts(subjectID) {
-    // use d3 to select the bar chart
+    // select the bar chart
     let barChart = d3.select("#bar");
-    // use d3 to select the bubble chart
+    // uselect the bubble chart
     let bubbleChart = d3.select("#bubble");
-        // use d3 to clear the bar chart
+        // clear the bar chart
         barChart.html("");
-        // use d3 to clear the bubble chart
+        // clear the bubble chart
         bubbleChart.html("");
         // create variables and console log them to make sure they are working
         let subjectInfo = bellydata.samples.filter(subject => subject.id == subjectID)[0];
@@ -38,7 +38,6 @@ function buildCharts(subjectID) {
         let otu_labels = subjectInfo.otu_labels;
         console.log(otu_labels);
         let sample_values = subjectInfo.sample_values;
-        console.log
         // create the bar chart
         let trace1 = {
             x: sample_values.slice(0, 10).reverse(),

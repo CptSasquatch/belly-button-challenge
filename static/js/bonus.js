@@ -1,6 +1,6 @@
-// use d3 to build the gauge chart
+// build the gauge chart
 function buildGauge(subjectID) {
-    // use d3 to select the gauge chart
+    // select the gauge chart
     let gaugeChart = d3.select("#gauge");
     d3.json(url).then(function(data) {
         // clear the gauge chart
