@@ -16,4 +16,4 @@ The dashboard is composed of three charts:<br>
 2. A bubble chart that displays each bacterial species found in a volunteer's navel.<br>
 3. A gauge chart that displays the weekly washing frequency of the volunteer.<br>
 The dashboard also displays the volunteer's demographic information.<br>
-[Click here to view the dashboard](https://cptsasquatch.github.io/)<br>
+## [Click here to view the dashboard](https://cptsasquatch.github.io/)<br>
